@@ -67,20 +67,30 @@ services:
   konga:
     image: pantsel/konga
     ports:
-      - 1338:1338
+      - 1337:1337
     links:
       - kong:kong
     container_name: konga
     environment:
-      - NODE_ENV=production'
+      - NODE_ENV=production
     networks:
       - kong-net
-  web:
-    build: server/
+  auth:
+    build: auth/
     environment:
       MONGO_URL: mongodb://mongo:27017
     ports:
     - "5050:5050"
+    depends_on:
+    - mongo
+    networks:
+      - kong-net
+  secure:
+    build: secure/
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+    ports:
+    - "5080:5080"
     depends_on:
     - mongo
     networks:

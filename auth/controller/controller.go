@@ -51,18 +51,10 @@ func SignUp(c *fiber.Ctx) error {
 	if err != nil {
 		panic(err)
 	}
-	user := models.NewUser(payLoad.Username, payLoad.Username)
+	user := models.NewUser(payLoad.Username, payLoad.Username, payLoad.Details)
 	err = mgm.Coll(user).Create(user)
 	if err != nil {
 		panic(err)
 	}
 	return c.Status(201).JSON(fiber.Map{"message": "success"})
-}
-
-// GetDetails Gets Details of a User
-func GetDetails(c *fiber.Ctx) error {
-	user := c.Locals("user").(*jwt.Token)
-	claims := user.Claims.(jwt.MapClaims)
-	username := claims["username"].(string)
-	return c.SendString("Welcome " + username)
 }
