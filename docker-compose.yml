@@ -67,6 +67,7 @@ services:
   deck:
     image: kong/deck
     container_name: deck
+    restart: on-failure
     networks:
       - kong-net
     depends_on:
