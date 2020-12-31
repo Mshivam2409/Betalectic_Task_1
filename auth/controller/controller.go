@@ -28,6 +28,11 @@ func SignIn(c *fiber.Ctx) error {
 			"message": err.Error(),
 		})
 	}
+	// Check password
+	if user.Password != existingUser.Password {
+		return c.SendStatus(fiber.StatusForbidden)
+	}
+
 	token := jwt.New(jwt.SigningMethodHS256)
 	// Set claims
 	claims := token.Claims.(jwt.MapClaims)

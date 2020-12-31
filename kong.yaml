@@ -1,0 +1,68 @@
+_format_version: "1.1"
+services:
+  - connect_timeout: 60000
+    host: auth
+    name: auth
+    port: 5050
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+      - name: auth-route
+        paths:
+          - /auth
+        path_handling: v1
+        preserve_host: false
+        protocols:
+          - http
+        regex_priority: 0
+        strip_path: true
+        https_redirect_status_code: 426
+  - connect_timeout: 60000
+    host: secure
+    name: secure
+    port: 5080
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+      - name: secured-route
+        paths:
+          - /secure
+        path_handling: v1
+        preserve_host: false
+        protocols:
+          - http
+        regex_priority: 0
+        strip_path: true
+        https_redirect_status_code: 426
+consumers:
+  - username: mshivam
+    jwt_secrets:
+      - algorithm: HS256
+        key: mshivam-secret
+        secret: secret
+plugins:
+  - name: jwt
+    config:
+      anonymous: null
+      claims_to_verify: null
+      cookie_names: []
+      header_names:
+        - authorization
+      key_claim_name: username
+      maximum_expiration: 0
+      run_on_preflight: true
+      secret_is_base64: false
+      uri_param_names:
+        - jwt
+    service: secure
+    consumer: mshivam
+    enabled: true
+    protocols:
+      - grpc
+      - grpcs
+      - http
+      - https

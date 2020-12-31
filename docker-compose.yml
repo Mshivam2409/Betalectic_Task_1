@@ -1,4 +1,4 @@
-version: "3"
+version: "3.2"
 
 networks:
  kong-net:
@@ -63,6 +63,19 @@ services:
       - kong-net
     depends_on:
       - kong-migrations
+
+  deck:
+    image: kong/deck
+    container_name: deck
+    networks:
+      - kong-net
+    depends_on:
+      - kong
+    volumes:
+      - type: bind
+        source: ./kong.yaml
+        target: /kong.yaml
+    command: sync --kong-addr http://kong:8001 
 
   konga:
     image: pantsel/konga
