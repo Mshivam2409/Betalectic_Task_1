@@ -18,7 +18,7 @@ app.get('/', async (req, res, next) => {
 })
 
 app.get('/health', async (req, res, next) => {
-    const resp = {
+    var resp = {
         secureHealthy: false,
         authHealthy: false
     }

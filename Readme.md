@@ -42,7 +42,10 @@ docker-compose -f "docker-compose.yml" up -d --build
 2. Apply the configuration files
 
 ```
-kubectl create -f kubernetes/
+kubectl create -f kubernetes/kong-deployment.yaml
+kubectl create -f kubernetes/database-deployment.yaml
+kubectl create -f kubernetes/microservices-deployment.yaml
+kubectl create -f kubernetes/test-deployment.yaml
 ```
 
 3. Wait for the pods to be up and running. All pods and deployment are in namespace kong.
