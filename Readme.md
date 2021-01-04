@@ -50,6 +50,7 @@ kubectl create -f kubernetes/
 4. Configure KongHQ using decK.(Run this in folder containing kong.yaml)
 
 ```
+kubectl port-forward -n kong svc/kong-admin 8001:8001
 deck sync
 ```
 
