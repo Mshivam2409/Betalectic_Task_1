@@ -14,6 +14,9 @@ func main() {
 	database.IntializeMongoDB()
 	app.Use(cors.New())
 	app.Use(recover.New())
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.Status(200).SendString("Auth Microservice is up!")
+	})
 	// SignUp Route (Unauthenticated)
 	app.Post("/signup", controller.SignUp)
 	app.Post("/signin", controller.SignIn)

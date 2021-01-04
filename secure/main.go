@@ -15,6 +15,9 @@ func main() {
 	database.IntializeMongoDB()
 	app.Use(cors.New())
 	app.Use(recover.New())
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.Status(200).SendString("Secure Microservice is up!")
+	})
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: []byte("secret"),
 	}))
