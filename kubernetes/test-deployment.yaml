@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: test
+  name: test
+  namespace: kong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+      - name: test
+        env:
+        - name: MONGO_URL 
+          value: mongo.kong.svc.cluster.local:27017
+        - name: MONGO_USERNAME
+          value: adminCluster
+        - name: MONGO_PASSWORD
+          value: secret-pass
+        - name: MONGO_DATABASE 
+          value: admin
+        image: shivammalhotra/betalectic_task_1_test:latest
+        ports:
+        - containerPort: 5000
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: test
+  name: test
+  namespace: kong
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    app: test
+  type: ClusterIP
+  
