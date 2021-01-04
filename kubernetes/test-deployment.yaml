@@ -26,6 +26,10 @@ spec:
           value: secret-pass
         - name: MONGO_DATABASE 
           value: admin
+        - name: AUTH_URL
+          value: auth.kong.svc.cluster:5050
+        - name: SECURE_URL
+          value: secure.kong.svc.cluster:5080
         image: shivammalhotra/betalectic_task_1_test:latest
         ports:
         - containerPort: 5000
